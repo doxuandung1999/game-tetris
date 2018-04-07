@@ -2,7 +2,7 @@
 #include<Windows.h>
 #include<cstdlib>
 #include<conio.h>
-#include<time.h>
+#include<ctime>
 #include<cstring>
 #define maxi 22 //I là hàng
 #define maxj 10  //J là c?t
@@ -121,49 +121,49 @@ void taobang()
 void trangthaigach()
 {
     for(int i=0;i<maxi;i++)
-    {
+
         for(int j=0;j<maxj;j++)
         {
             if(board[i][j]==1&&i>=4)
             {
-                gotoxy(j+rong+1,i+dai+1-4); cout << char(2);
+                gotoxy(j+rong+1,i+dai+1-4);textcolor(LIGHTRED); cout << char(2);
             }
             if(board[i][j]==0&&i>=4)
             {
-                gotoxy(j+rong+1,i+dai+1-4);cout << " ";
+                 textcolor(BLACK) ;gotoxy(j+rong+1,i+dai+1-4);cout << " ";
             }
         }
-    }
+
 }
 
 void capnhatlaitoado(int hang)
 {
     for(int i=hang;i>0;i--)
-    {
+
         for(int j=0;i<maxj;j++)
         {
             board[i][j]=board[i-1][j];
         }
-    }
+
 }
 struct thongtin{
     int score;
     int level;
     float speed;
 };
-void hienthith (thongtin &th)
+void hienthith (thongtin *th)
 {
-    th.score = 0;
-    th.level=1;
-    th.speed=0.3;
+    th->level = 1;
+    th->score= 0;
+    th->speed=0.3;
 }
-int capnhat(thongtin &th , int score)
+int capnhat(thongtin *th , int score)
 {
-    th.score += score;
-    if(th.score>=200&&th.level<2)
+    th->score += score;
+    if(th->score>=200&&th->level<2)
     {
-        th.level ++;
-        th.score -=0.1;
+        th->level ++;
+        th->speed -=0.1;
     }
     return 0;
 }
@@ -220,81 +220,75 @@ int thuocbang(int i , int j) // ham kiem tra xem khoi gach co thuoc bang hay ko.
 }
 int phai(int i, int j)
 {
-    if(j<maxj-1&&thuocbang(i,j)&&board[i][j+1]==0)
-    {
-        return 1;
-    }
+    if(j<maxj-1&&thuocbang(i,j)&&board[i][j+1]==0) return 1;
+    return 0;
 }
 int trai(int i , int j)
 {
-    if(j>0&&thuocbang(i,j)&&board[i][j-1]==0)
-    {
-        return 1;
-    }
+    if(j>0&&thuocbang(i,j)&&board[i][j-1]==0) return 1;
+    return 0;
 }
 int xuong(int i , int j)
 {
-    if(i<maxi-1&&thuocbang(i,j)&&board[i+1][j]==0)
-    {
-        return 1;
-    }
+    if(i<maxi-1&&thuocbang(i,j)&&board[i+1][j]==0) return 1;
+    return 0;
 }
 // ham di chyen ca khoi gach.
 void sangtrai(khoigach *pkhoigach)
 {
     for(int i=0;i<pkhoigach->hang;i++)
-    {
+
         for(int j=0;j<pkhoigach->cot;j++)
-        {
+
             if(pkhoigach->arr[i][j]==1)
             {
                 if(trai(pkhoigach->iboard+i,pkhoigach->jboard+j)==0||pkhoigach->iboard <=3) return;
             }
-        }
-    }
+
+
     pkhoigach->jboard-=1;
 }
 void sangphai(khoigach *pkhoigach)
 {
     for(int i=0;i<pkhoigach->hang;i++)
-    {
+
         for(int j=0;j<pkhoigach->cot;j++)
-        {
+
             if(pkhoigach->arr[i][j]==1)
             {
                 if(phai(pkhoigach->iboard+i,pkhoigach->jboard+j)==0||pkhoigach->iboard<=3) return;
             }
-        }
-    }
+
+
     pkhoigach->jboard+=1;
 }
 int xuongduoi(khoigach *pkhoigach)
 {
     for(int i=0;i<pkhoigach->hang;i++)
-    {
+
         for(int j=0;j<pkhoigach->cot;j++)
-        {
+
             if(pkhoigach->arr[i][j]==1)
             {
                 if(xuong(pkhoigach->iboard+i,pkhoigach->jboard+j)==0) return 0;
             }
-        }
-    }
-    pkhoigach->iboard-=1;
+
+
+    pkhoigach->iboard+=1;
     return 1;
 }
 void gangiatri(khoigach *pkhoigach)
 {
     for(int i=0;i<pkhoigach->hang;i++)
-    {
+
         for(int j=0;j<pkhoigach->cot;j++)
-        {
+
             if(pkhoigach->arr[i][j]==1)
             {
-                board[pkhoigach->iboard+i][pkhoigach->jboard+j]==1;
+                board[pkhoigach->iboard+i][pkhoigach->jboard+j]=1;
             }
-        }
-    }
+
+
 }
 void xoaykhoigach(khoigach *pkhoigach)
 {
@@ -309,23 +303,23 @@ void xoaykhoigach(khoigach *pkhoigach)
     }
     // xoay
     for(int i = pkhoigach->hang-1;i>=0;i--)
-    {
+
         for(int j=pkhoigach->cot-1;j>=0;j--)
         {
-            temparr[j][pkhoigach->hang-1]=pkhoigach->arr[i][j];
+            temparr[j][pkhoigach->hang-i-1]=pkhoigach->arr[i][j];
         }
-    }
+
     // kiem tra xem co xoay duoc khong
     for(int i=0;i<temphang;i++)
     {
         for(int j=0;j<tempcot;j++)
-        {
-            if(thuocbang(pkhoigach->iboard+i,pkhoigach->jboard+j)==0||board[pkhoigach->iboard+i][pkhoigach->jboard+j]==1)
+
+            if(!thuocbang(pkhoigach->iboard+i,pkhoigach->jboard+j)||board[pkhoigach->iboard+i][pkhoigach->jboard+j]==1)
                 return;
-        }
+
     }
     // giai phong bo nho
-    for(int i=0;i,temphang;i++)
+    for(int i=0;i<pkhoigach->hang;i++)
         free(pkhoigach->arr[i]);
         free(pkhoigach->arr);
     // cap nhat thay doi sau khi xoay
@@ -333,9 +327,198 @@ void xoaykhoigach(khoigach *pkhoigach)
     pkhoigach->cot = tempcot;
     pkhoigach->arr = temparr;
 }
-int main(){
-    clrscr();
-    Nocursortype();
-    taobang();
+void vekhoigach(khoigach *pkhoigach)
+{
+    for(int i=0;i<pkhoigach->hang;i++)
+    {
+        for(int j=0;j<pkhoigach->cot;j++)
+        {
+            if(pkhoigach->arr[i][j]==1&&(pkhoigach->iboard+i)>3)
+            {
+                textcolor(LIGHTRED);
+                gotoxy(rong+pkhoigach->jboard+j+1 , dai+pkhoigach->iboard+i-3);
+                cout << char(2);
+            }
+        }
+    }
+}
+void xoakhoigach(khoigach *pkhoigach)
+{
+    for(int i=0;i<pkhoigach->hang;i++)
+
+        for(int j=0;j<pkhoigach->cot;j++)
+
+            if(pkhoigach->arr[i][j]==1&&(pkhoigach->iboard+i)>3)
+            {
+                textcolor(BLACK);
+                gotoxy(rong+pkhoigach->jboard+j+1,dai+pkhoigach->iboard+i-3);
+                cout << " ";
+            }
 
 }
+int kiemtra(khoigach *pkhoigach , thongtin * thongtingame)
+{
+    int dem;
+    int i = pkhoigach->hang-1;
+    if(pkhoigach->iboard<=3) return -1;
+    if(thongtingame->score>=300) return 0;
+    do
+    {
+        dem=0;
+        for(int j=0;j<maxj;j++)
+        {
+            if(board[pkhoigach->iboard+i][j]==1)
+                dem++;
+        }
+        if(dem==maxj)
+        {
+            capnhat(thongtingame , 20);
+            capnhatlaitoado(pkhoigach->iboard+i);
+            trangthaigach();
+        }
+        else
+        {
+            i = i-1;
+        }
+    }
+    while(i>=0);
+    return 1;
+}
+//giai phong bo nho
+void huykhoigach(khoigach *pkhoigach)
+{
+    for(int i=0;i<pkhoigach->hang;i++)
+    free(pkhoigach->arr[i]);
+    free(pkhoigach->arr);
+    free(pkhoigach);
+    pkhoigach = NULL;
+}
+// chon ngau nhien 1 vien gsch
+int loai()
+{
+    int x = rand()%7;
+    switch(x)
+    {
+    case 0 :
+        return 15;
+        break;
+    case 1:
+        return 31;
+        break;
+    case 2:
+        return 51;
+        break;
+    case 3:
+        return 30;
+        break;
+    case 4:
+        return 58;
+        break;
+    case 5:
+        return 57;
+        break;
+    case 6:
+        return 60;
+        break;
+    }
+}
+void venext(int id)
+{
+    khoigach *pnext = taokhoigach(id);
+    int ingoai= rong + maxj + 5 ;
+    int jngoai = dai;
+    for(int i=0;i<pnext->hang;i++)
+    {
+        for(int j=0;j<pnext->cot;j++)
+        {
+            if(pnext->arr[i][j]==1)
+            {
+                textcolor(LIGHTGREEN);
+                gotoxy(ingoai+j , jngoai+i);
+                cout << char(2);
+            }
+        }
+    }
+    huykhoigach(pnext);
+}
+void xoanext()
+{
+    int ingoai = rong + maxj+5;
+    int jngoai = dai;
+    for(int i=0 ; i<4;i++)
+    {
+        for(int j=0;j<4;j++)
+        {
+            textcolor(BLACK);
+            gotoxy(ingoai+j , jngoai+i) ;
+             cout << " ";
+        }
+    }
+}
+int main(){
+    int idkhoigachtieptheo;
+    clock_t Start,End;
+    int c;
+    thongtin th;
+    khoigach * cakhoi;
+    srand(time(0));
+    cakhoi = taokhoigach(loai());
+    idkhoigachtieptheo = loai();
+    taobang();
+    hienthith(&th);
+    Nocursortype();
+    do
+    {
+        inthongtin(th);
+        vekhoigach(cakhoi);
+        xoanext();
+        venext(idkhoigachtieptheo);
+        Start=clock();
+        do
+        {
+        if(_kbhit())
+        {
+            c=toupper(getch());
+            xoakhoigach(cakhoi);
+            switch(c)
+            {
+                case 72:
+                    xoaykhoigach(cakhoi);
+                    break;
+                case 75:
+                    sangtrai(cakhoi);
+                    break;
+                case 77:
+                    sangphai(cakhoi);
+                case 80:
+                    xuongduoi(cakhoi);
+                    break;
+            }
+            vekhoigach(cakhoi);
+        }
+        End=clock();
+        }while(float(End-Start)/CLK_TCK<th.speed);
+        xoakhoigach(cakhoi);
+        if(xuongduoi(cakhoi)==0)
+        {
+            gangiatri(cakhoi);
+            int ketqua = kiemtra(cakhoi, &th);
+            if((ketqua==-1||ketqua==0)) break;
+            huykhoigach(cakhoi);
+            cakhoi = taokhoigach(idkhoigachtieptheo);
+            idkhoigachtieptheo = loai();
+        }
+        trangthaigach();
+    }
+        while(1);
+        textcolor(LIGHTGREEN);
+        gotoxy(35,20) ; cout << "end game";
+        _getch();
+        return 0;
+
+}
+     
+    
+
+
+  
