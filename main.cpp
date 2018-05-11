@@ -12,7 +12,6 @@ int main(){
     char c;
     thongtin th;
     khoigach * cakhoi;
-//    srand(time(0));
     cakhoi = taokhoigach(loai());
     idkhoigachtieptheo = loai();
     taobang();
@@ -55,12 +54,14 @@ int main(){
             gangiatri(cakhoi);
             int ketqua = kiemtra(cakhoi, &th);
             if((ketqua==-1||ketqua==0)) break;
+            huykhoigach(cakhoi);
             cakhoi = taokhoigach(idkhoigachtieptheo);
             idkhoigachtieptheo = loai();
         }
         trangthaibang();
     }while(1);
-        textcolor(LIGHTGREEN);
+    Beep(900,500);
+        textcolor(10);
         gotoxy(50,20) ; cout << "end game";
         _getch();
         return 0;

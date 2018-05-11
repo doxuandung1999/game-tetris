@@ -1,0 +1,30 @@
+# depslib dependency file v1.0
+1526027553 source:c:\users\dell\desktop\xephinh\main.cpp
+	"hotro.h"
+	"hienthi.h"
+	"thongtin.h"
+	"taogach.h"
+	"dichuyen.h"
+	"luatchoi.h"
+
+1525972929 c:\users\dell\desktop\xephinh\hotro.h
+	<Windows.h>
+	<iostream>
+	<cstdlib>
+	<conio.h>
+	<ctime>
+	<cstring>
+
+1525972929 c:\users\dell\desktop\xephinh\hienthi.h
+
+1525972929 c:\users\dell\desktop\xephinh\thongtin.h
+
+1526027426 c:\users\dell\desktop\xephinh\taogach.h
+
+1525972936 c:\users\dell\desktop\xephinh\dichuyen.h
+
+1526024081 c:\users\dell\desktop\xephinh\luatchoi.h
+
+1525971534 source:c:\users\dell\desktop\xephinh\hotro.cpp
+	"hotro.h"
+
